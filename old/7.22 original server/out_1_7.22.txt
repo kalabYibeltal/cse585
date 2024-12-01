@@ -1,0 +1,4 @@
+minDuration:  1536835
+maxDuration:  166416900
+avgDuration:  69684616.24
+Time taken: 178.59 seconds

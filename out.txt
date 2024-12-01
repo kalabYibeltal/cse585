@@ -1,0 +1,7 @@
+115
+
+Batched processing:
+minDuration:  24357430
+maxDuration:  192875547
+avgDuration:  72341349.43478261
+Time taken: 192.94 seconds

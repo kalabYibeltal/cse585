@@ -18,7 +18,7 @@ httpx==0.27.2
 huggingface-hub==0.25.2
 idna==3.10
 Jinja2==3.1.4
-kiwisolver==1.4.7
+kiwisolver==1.4.7   
 llama_cpp_python==0.3.1
 llama_models==0.0.42
 llama_stack==0.0.42

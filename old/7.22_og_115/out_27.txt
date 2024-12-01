@@ -1,0 +1,8 @@
+115
+Using 14 cores
+
+Batched processing:
+minDuration:  7270953
+maxDuration:  46479124
+avgDuration:  23833370.782608695
+Time taken: 61.37 seconds
