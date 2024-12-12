@@ -13,6 +13,7 @@ import subprocess
 
 import asyncio
 import aiohttp
+import argparse
 
 # Configuration
 # MODEL_PATH = "../llama.cpp/Llama-3.2-3B-Instruct-uncensored-Q2_K-1.49-GB.gguf"  # Adjust path as needed
@@ -60,43 +61,6 @@ import requests
 # total_prompts_processed = 0
 
 
-# Example prompts
-prompts = []
-with open('special_prompts.txt', 'r') as file:
-    line_counter = 0
-    
-    # print the size here
-    for line in file:
-        # if line_counter > 109 and line_counter < 1000:
-        #     line_counter += 1
-        #     continue
-        # if line_counter > (9):
-        #     break
-        prompts.append((line.strip()))
-        
-        # line_counter += 1
-        # if line_counter == 5:
-        #     break
-        
- 
-
-# prompts.sort(key=len)
-
-
-# temp = []
-# for i in range(0, len(prompts) // 2):
-#     temp.append(prompts[i])
-#     temp.append(prompts[ len(prompts) - i -1 ])
-    
-# prompts =  [
-#     "Who let the dogs out ",
-#     "water is",
-#     "who is mandela",
-#     "why do I have to debug",
-#     "Finaly"
-# ]
-
-print(len(prompts))
 
 
 # # # Define the async function to send a POST request for each prompt
@@ -119,7 +83,7 @@ async def send_prompt(session, prompt):
         return data
 
 # Main async function to handle all requests concurrently
-async def gen():
+async def gen(prompts):
     async with aiohttp.ClientSession() as session:
         # Send all prompts concurrently using asyncio.gather
         tasks = [send_prompt(session, prompt) for prompt in prompts]
@@ -136,10 +100,13 @@ async def gen():
                 maxDuration = max(maxDuration, int(response['duration']))
                 avgDuration += int(response['duration'])
                 
-        # #         print(response['duration'])
-        #     # else:
-        #         # print(response)
-        # #     # print(data)
+                # print(response['duration'])
+            else:
+                print(response)
+            # Write the response content to the file
+            with open("output.txt", "a") as file:  # Use append mode
+                file.write(response['content'])
+                file.write("\n------------------\n")  
         
         avgDuration = avgDuration / len(responses)
         
@@ -167,7 +134,7 @@ def calculate_metrics(filename):
                 continue
             
     # print(cpu_utilization[0])
-    average_total_cpu = sum(cpu_utilization)
+    average_total_cpu = sum(cpu_utilization) / (len(cpu_utilization) - 1)
     # / (len(cpu_utilization) - 1)
     average_memory = sum(memory_utilization) / len(memory_utilization)
     
@@ -175,13 +142,31 @@ def calculate_metrics(filename):
 
 
 if __name__ == "__main__":
-    
-  
-    
-    # print(f"Using {NUM_CORES} cores")
+    parser = argparse.ArgumentParser(description="Process some arguments.")
+    parser.add_argument("--prompts", type=int, help="Number of prompts")
+    args = parser.parse_args()
 
-    # Process prompts
-    print("\nBatched processing:")
+    print(f"Age: {args.prompts}")
+    
+    
+    # Example prompts
+    prompts = []
+    with open('special_prompts.txt', 'r') as file:
+        line_counter = 0
+        
+        for line in file:
+          
+            line_counter += 1
+            if line_counter > (args.prompts):
+                break
+            prompts.append((line.strip()))
+            
+
+    print(len(prompts))
+
+    with open("output.txt", "w") as file:  # Use append mode
+        file.write("\n Responses: \n")  
+            
     monitor_log_file =  "./monitor.jsonl"
     
 
@@ -207,7 +192,7 @@ if __name__ == "__main__":
         time_delta = start_time / 1e9 - time.time()
         time.sleep(time_delta if time_delta > 0 else 0)
         
-        asyncio.run(gen())
+        asyncio.run(gen(prompts))
         
 
         

@@ -1,5 +1,0 @@
-start time: 1732929010375459840
-log file: ./monitor.jsonl
-24
-
-Batched processing:

@@ -1,0 +1,9 @@
+115
+
+Batched processing:
+minDuration:  5579314
+maxDuration:  591330689
+avgDuration:  229493844.27826086
+Time taken: 591.394 seconds
+Total CPU utilization: 693.1521201413437
+Average memory utilization: 7921872773.19224

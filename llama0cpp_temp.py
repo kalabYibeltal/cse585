@@ -134,9 +134,9 @@ with open('special_prompts.txt', 'r') as file:
         #     break
         prompts.append((line.strip()))
         
-        # line_counter += 1
-        # if line_counter == 5:
-        #     break
+        line_counter += 1
+        if line_counter == 5:
+            break
 
 # prompts.sort(key=len)
 print(len(prompts))
